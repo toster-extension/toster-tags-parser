@@ -1,5 +1,6 @@
 # Парсер тегов с сайта toster.ru
 
+[![](https://travis-ci.com/toster-extension/toster-tags-parser.svg?token=VFf9QrVVyiw8FmrinqqQ&branch=master)](https://travis-ci.com/toster-extension/toster-tags-parser)
 ![](https://img.shields.io/david/toster-extension/toster-tags-parser.svg)
 
 

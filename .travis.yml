@@ -1,0 +1,28 @@
+language: node_js
+
+dist: trusty
+
+sudo: false
+
+node_js:
+  - '10'
+
+notifications:
+  email: false
+
+addons:
+  chrome: stable
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+before_script:
+  - yarn install
+
+script:
+  - yarn lint
+  - yarn build
+  - chmod +x bin/toster-tags-parser
+  - bin/toster-tags-parser --pages 1 --output assets/tags.json
