@@ -1,0 +1,5 @@
+*.d.ts
+logs/**/*
+test/**/*
+bin/**/*
+node_modules/**/*
