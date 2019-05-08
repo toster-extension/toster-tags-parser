@@ -148,6 +148,7 @@
     ]
   },
   "linterOptions": {
-    "typeCheck": true
+    "typeCheck": true,
+    "exclude": ["**/*.json", "**/*.js"]
   }
 }
