@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "lib": ["es6", "dom", "es2017"],
     "baseUrl": ".",
+    "allowJs": true,
     "sourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -18,7 +19,8 @@
     "pretty": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "bin/*": ["bin/*"]
     }
   },
   "include": [

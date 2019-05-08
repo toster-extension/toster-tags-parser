@@ -25,4 +25,7 @@ script:
   - yarn lint
   - yarn build
   - chmod +x bin/toster-tags-parser
+  - yarn test
+  - bin/toster-tags-parser --version
+  - bin/toster-tags-parser --help
   - bin/toster-tags-parser --pages 1 --output assets/tags.json

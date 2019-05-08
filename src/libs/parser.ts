@@ -1,7 +1,8 @@
-import * as fs from 'fs';
 import * as path from 'path';
+import chalk from 'chalk';
 import * as puppeteer from 'puppeteer';
 import { Bar as ProgressBar } from 'cli-progress';
+import { FAILED_CREATE_DIRECTORY } from 'bin/errcodes';
 import { urlGlue } from '@/libs/url-glue';
 
 const mkdir = require('mkdirp-sync');
@@ -27,16 +28,16 @@ export class Parser {
 
         const dirName = path.dirname(this.filePath);
 
-        mkdir(dirName);
-
-        if (!fs.existsSync(dirName)) {
-            console.error(`Не удалось создать каталог "${dirName}"!`);
-            process.exit(1);
+        try {
+            mkdir(dirName);
+        } catch {
+            console.log(chalk.red(`Failed to create directory "${dirName}"!`));
+            process.exit(FAILED_CREATE_DIRECTORY);
         }
     }
 
     public async run (selector: Selector, totalPages?: number): Promise<void> {
-        console.log('Selector: %s, Total pages: %d', selector, totalPages);
+        console.log(chalk.green('Selector: %s, Total pages: %d'), selector, totalPages);
     }
 
     protected async start (): Promise<void> {
