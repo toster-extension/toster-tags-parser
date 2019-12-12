@@ -2021,7 +2021,7 @@ var Parser = /** @class */ (function () {
         this.url = url;
         this.filePath = filePath;
         this.browser = null;
-        this.baseUrl = 'https://toster.ru';
+        this.baseUrl = 'https://qna.habr.com';
         this.progress = new cliProgress.Bar({
             barCompleteChar: '#',
             barIncompleteChar: '.',
@@ -2172,7 +2172,7 @@ var pkg = {
 
 var argv = minimist(process.argv.slice(2), {
     default: {
-        pages: 62,
+        pages: 61,
         output: null,
         help: false,
         version: false,
@@ -2194,7 +2194,7 @@ if (argv.help) {
     console.log(chalk.green('Usage examples:'));
     console.log(chalk.green('    toster-tags-parser -v[--version]     Print package version'));
     console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
-    console.log(chalk.green('    toster-tags-parser -p[--pages] 62    Total pages'));
+    console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
     console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
     process.exit(errcodes_1);
 }
@@ -2280,7 +2280,7 @@ var TagsParser = /** @class */ (function (_super) {
     return TagsParser;
 }(Parser));
 var parser = new TagsParser('/tags/?page=', argv.output);
-var pages = Number(argv.pages) || 62;
+var pages = Number(argv.pages) || 61;
 parser.run('header.card__head', pages);
 
 exports.TagsParser = TagsParser;

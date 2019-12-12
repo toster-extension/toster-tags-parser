@@ -1,4 +1,4 @@
-# Парсер тегов с сайта toster.ru
+# Парсер тегов с сайта qna.habr.com
 
 [![](https://travis-ci.com/toster-extension/toster-tags-parser.svg?token=VFf9QrVVyiw8FmrinqqQ&branch=master)](https://travis-ci.com/toster-extension/toster-tags-parser)
 ![](https://img.shields.io/david/toster-extension/toster-tags-parser.svg)
@@ -46,7 +46,7 @@ $ yarn tags --pages 1 --output assets/tags.json
 
 `-h[--help]` - подсказка по использованию пакета.
 
-`-p[--pages]` - сколько страниц с тегами парсить. По-умолчанию параметр равен 62.
+`-p[--pages]` - сколько страниц с тегами парсить. По-умолчанию параметр равен 61.
 
 `-o[--output]` - путь к файлу для сохранения. Если не существует, то скрипт попытается его создать.
 

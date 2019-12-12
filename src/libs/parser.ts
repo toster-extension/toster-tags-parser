@@ -15,7 +15,7 @@ export type Selector = string;
 
 export class Parser {
     protected browser: puppeteer.Browser = null;
-    protected readonly baseUrl: string = 'https://toster.ru';
+    protected readonly baseUrl: string = 'https://qna.habr.com';
     protected readonly progress: ProgressBar = new ProgressBar({
         barCompleteChar: '#',
         barIncompleteChar: '.',
