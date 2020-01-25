@@ -3,7 +3,6 @@ import chalk from 'chalk';
 import minimist from 'minimist';
 import { DIST_FILE_IS_EMPTY, OK } from 'bin/errcodes';
 import { Parser, Selector } from '@/libs/parser';
-import { Tag, TagId } from '@/libs/types';
 import pkg from '../package.json';
 
 const argv = minimist(process.argv.slice(2), {
@@ -88,11 +87,13 @@ export class TagsParser extends Parser {
                                             )
                                         );
 
-                                        return {
+                                        return <Tag>{
                                             name: link.innerText ? link.innerText.trim() : '',
                                             slug: link.getAttribute('title'),
                                             image: image
-                                                ? image.getAttribute('src')
+                                                ? image
+                                                    .getAttribute('src')
+                                                    .replace(/^https:\/\/habrastorage\.org\//, 'https://hsto.org/')
                                                 : '',
                                         };
                                     }
@@ -105,34 +106,23 @@ export class TagsParser extends Parser {
         }
 
         const pagesData = await this.progressWrapper<Tag[]>(promises);
-        const lines = pagesData.reduce((acc: Tag[], item: Tag[]) => [
-            ...acc,
-            ...item,
-        ]);
+        const lines = pagesData.reduce((acc: Tag[], items: Tag[]) => acc.concat(items), []);
 
         this.saveToJSON(lines);
 
         await this.stop();
     }
 
-    private saveToJSON (lines: Tag[], flags: string = 'w+') {
-        console.log(chalk.green('Collected tags: %d'), lines.length);
+    private saveToJSON (tags: Tag[]) {
+        console.log(chalk.green('Collected tags: %d'), tags.length);
 
         if (fs.existsSync(this.filePath)) {
             fs.unlinkSync(this.filePath);
         }
 
-        const logger = fs.createWriteStream(this.filePath, { flags });
-        const tagsList: Tag[] = [];
+        const writeStream = fs.createWriteStream(this.filePath, { flags: 'w+' });
 
-        lines.forEach((tag: Tag, index: number) => {
-            tagsList.push({
-                id: <TagId>(index + 1),
-                ...tag,
-            });
-        });
-
-        logger.write(JSON.stringify(tagsList, null, 2));
+        writeStream.write(JSON.stringify(tags, null, 2));
     }
 }
 
@@ -140,3 +130,9 @@ const parser = new TagsParser('/tags/?page=', argv.output);
 const pages = Number(argv.pages) || 61;
 
 parser.run('header.card__head', pages);
+
+export interface Tag {
+    name: string
+    slug: string
+    image: string
+}

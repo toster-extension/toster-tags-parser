@@ -40,17 +40,6 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2091,7 +2080,7 @@ var Parser = /** @class */ (function () {
 }());
 
 var name = "toster-tags-parser";
-var version = "0.0.2";
+var version = "1.0.0";
 var description = "";
 var author = "Yarkov Aleksey";
 var repository = {
@@ -2238,7 +2227,9 @@ var TagsParser = /** @class */ (function (_super) {
                                                             name: link.innerText ? link.innerText.trim() : '',
                                                             slug: link.getAttribute('title'),
                                                             image: image
-                                                                ? image.getAttribute('src')
+                                                                ? image
+                                                                    .getAttribute('src')
+                                                                    .replace(/^https:\/\/habrastorage\.org\//, 'https://hsto.org/')
                                                                 : '',
                                                         };
                                                     });
@@ -2254,7 +2245,7 @@ var TagsParser = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.progressWrapper(promises)];
                     case 3:
                         pagesData = _a.sent();
-                        lines = pagesData.reduce(function (acc, item) { return acc.concat(item); });
+                        lines = pagesData.reduce(function (acc, items) { return acc.concat(items); }, []);
                         this.saveToJSON(lines);
                         return [4 /*yield*/, this.stop()];
                     case 4:
@@ -2264,18 +2255,13 @@ var TagsParser = /** @class */ (function (_super) {
             });
         });
     };
-    TagsParser.prototype.saveToJSON = function (lines, flags) {
-        if (flags === void 0) { flags = 'w+'; }
-        console.log(chalk.green('Collected tags: %d'), lines.length);
+    TagsParser.prototype.saveToJSON = function (tags) {
+        console.log(chalk.green('Collected tags: %d'), tags.length);
         if (fs.existsSync(this.filePath)) {
             fs.unlinkSync(this.filePath);
         }
-        var logger = fs.createWriteStream(this.filePath, { flags: flags });
-        var tagsList = [];
-        lines.forEach(function (tag, index) {
-            tagsList.push(__assign({ id: (index + 1) }, tag));
-        });
-        logger.write(JSON.stringify(tagsList, null, 2));
+        var writeStream = fs.createWriteStream(this.filePath, { flags: 'w+' });
+        writeStream.write(JSON.stringify(tags, null, 2));
     };
     return TagsParser;
 }(Parser));
