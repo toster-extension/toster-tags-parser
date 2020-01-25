@@ -44,5 +44,15 @@ describe('Toster tags parser', () => {
             const { code } = shell.exec('./bin/toster-tags-parser --pages 1 --output ./assets/tags.json');
             expect(code).toEqual(errcodes.OK);
         });
+
+        it('image domain "habrastorage.org" replaced to "hsto.org"', () => {
+            shell.exec('./bin/toster-tags-parser --pages 1 --output ./assets/tags.json');
+            const json = fs.readFileSync('./assets/tags.json');
+            const domains = JSON.parse(json).map(tag => tag.image);
+            const includeOldDomain = domains.filter(domain => domain.startsWith('https://habrastorage.org'));
+            const includeNewDomain = domains.filter(domain => domain.startsWith('https://hsto.org'));
+            expect(includeOldDomain.length).toEqual(0);
+            expect(includeNewDomain.length).toEqual(domains.length);
+        });
     });
 });

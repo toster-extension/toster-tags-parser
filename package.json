@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "toster-tags-parser",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "",
   "author": "Yarkov Aleksey",
   "repository": {
@@ -61,6 +61,7 @@
   "lint-staged": {
     "*.ts": [
       "yarn lint:fix",
+      "yarn test",
       "git add"
     ]
   }
