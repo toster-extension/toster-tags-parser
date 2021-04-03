@@ -1,0 +1,7 @@
+*.d.ts
+*.json
+bin/parser.js
+
+logs
+test
+node_modules
