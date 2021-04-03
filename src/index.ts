@@ -7,7 +7,7 @@ import pkg from '../package.json';
 
 const argv = minimist(process.argv.slice(2), {
     default: {
-        pages: 61,
+        pages: 60,
         output: null,
         help: false,
         version: false,
@@ -40,7 +40,7 @@ if (argv.help) {
         )
     );
     console.log(
-        chalk.green('    toster-tags-parser -p[--pages] 61    Total pages')
+        chalk.green('    toster-tags-parser -p[--pages] 60    Total pages')
     );
     console.log(
         chalk.green(
@@ -127,7 +127,7 @@ export class TagsParser extends Parser {
 }
 
 const parser = new TagsParser('/tags/?page=', argv.output);
-const pages = Number(argv.pages) || 61;
+const pages = Number(argv.pages) || 60;
 
 parser.run('header.card__head', pages);
 
