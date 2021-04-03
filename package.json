@@ -28,7 +28,7 @@
     "cli-progress": "2.1.1",
     "minimist": "1.2.5",
     "mkdirp-sync": "0.0.3",
-    "puppeteer": "^1.12.2"
+    "puppeteer": "^1.13.0"
   },
   "devDependencies": {
     "@types/cli-progress": "^1.8.0",
