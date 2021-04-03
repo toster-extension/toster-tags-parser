@@ -61,8 +61,7 @@
   "lint-staged": {
     "*.ts": [
       "yarn lint:fix",
-      "yarn test",
-      "git add"
+      "yarn test --passWithNoTests"
     ]
   }
 }
