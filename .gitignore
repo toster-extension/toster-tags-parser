@@ -1,3 +1,4 @@
 *.log
 
+assets/*.json
 node_modules
