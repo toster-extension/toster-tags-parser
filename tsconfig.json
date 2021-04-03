@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./bin",
-    "target": "es5",
+    "target": "es2015",
     "module": "es2015",
     "moduleResolution": "node",
     "lib": ["es6", "dom", "es2017"],
@@ -18,14 +18,23 @@
     "importHelpers": true,
     "pretty": true,
     "resolveJsonModule": true,
+    "types": [
+      "jest"
+    ],
     "paths": {
-      "@/*": ["src/*"],
-      "bin/*": ["bin/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "bin/*": [
+        "bin/*"
+      ]
     }
   },
   "include": [
     "*.ts",
     "src/**/*",
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
