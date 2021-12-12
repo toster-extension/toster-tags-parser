@@ -1922,15 +1922,6 @@ module.exports.default = module.exports; // For TypeScript
 });
 var chalk_1 = chalk.supportsColor;
 
-var errcodes = {
-  OK: 0,
-  DIST_FILE_IS_EMPTY: 1,
-  FAILED_CREATE_DIRECTORY: 2,
-};
-var errcodes_1 = errcodes.OK;
-var errcodes_2 = errcodes.DIST_FILE_IS_EMPTY;
-var errcodes_3 = errcodes.FAILED_CREATE_DIRECTORY;
-
 var mkdirpSync = function (dir, mode) {
     const sep = path__default.sep, arr = dir.split(sep);
     let i = 0, len = arr.length, tmp;
@@ -1976,7 +1967,7 @@ class Parser {
         }
         catch (_a) {
             console.log(chalk.red(`Failed to create directory "${dirName}"!`));
-            process.exit(errcodes_3);
+            process.exit(1);
         }
     }
     run(selector, totalPages) {
@@ -2094,7 +2085,7 @@ const argv = minimist(process.argv.slice(2), {
 });
 if (argv.version) {
     console.log(chalk.green(`v${pkg.version}`));
-    process.exit(errcodes_1);
+    process.exit(0);
 }
 if (argv.help) {
     console.log(chalk.green('Usage examples:'));
@@ -2102,11 +2093,11 @@ if (argv.help) {
     console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
     console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
     console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
-    process.exit(errcodes_1);
+    process.exit(0);
 }
 if (!argv.output) {
     console.log(chalk.red('File path not passed'));
-    process.exit(errcodes_2);
+    process.exit(1);
 }
 class TagsParser extends Parser {
     run(selector, totalPages = 1) {

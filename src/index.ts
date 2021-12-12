@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import chalk from 'chalk';
 import minimist from 'minimist';
-import { DIST_FILE_IS_EMPTY, OK } from '@/../bin/errcodes';
 import { Parser, Selector } from '@/libs/parser';
 import pkg from '../package.json';
 
@@ -24,7 +23,7 @@ const argv = minimist(process.argv.slice(2),  {
 
 if (argv.version) {
   console.log(chalk.green(`v${pkg.version}`));
-  process.exit(OK);
+  process.exit(0);
 }
 
 if (argv.help) {
@@ -33,12 +32,12 @@ if (argv.help) {
   console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
   console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
   console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
-  process.exit(OK);
+  process.exit(0);
 }
 
 if (!argv.output) {
   console.log(chalk.red('File path not passed'));
-  process.exit(DIST_FILE_IS_EMPTY);
+  process.exit(1);
 }
 
 export class TagsParser extends Parser {
