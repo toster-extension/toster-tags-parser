@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import chalk from 'chalk';
 import minimist from 'minimist';
-import { DIST_FILE_IS_EMPTY, OK } from 'bin/errcodes';
+import { DIST_FILE_IS_EMPTY, OK } from '@/../bin/errcodes';
 import { Parser, Selector } from '@/libs/parser';
 import pkg from '../package.json';
 
 const argv = minimist(process.argv.slice(2),  {
   default: {
-    pages: 60,
+    pages: 61,
     output: null,
     help: false,
     version: false,
@@ -31,7 +31,7 @@ if (argv.help) {
   console.log(chalk.green('Usage examples:'));
   console.log(chalk.green('    toster-tags-parser -v[--version]     Print package version'));
   console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
-  console.log(chalk.green('    toster-tags-parser -p[--pages] 60    Total pages'));
+  console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
   console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
   process.exit(OK);
 }
@@ -104,8 +104,8 @@ export class TagsParser extends Parser {
   }
 }
 
-const parser = new TagsParser('/tags/?page=', argv.output);
-const pages = Number(argv.pages) || 60;
+const parser = new TagsParser('/tags?page=', argv.output);
+const pages = Number(argv.pages) || 61;
 
 parser.run('header.card__head', pages);
 

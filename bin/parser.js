@@ -14,25 +14,26 @@ var puppeteer = require('puppeteer');
 var cliProgress = require('cli-progress');
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
 function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
@@ -1953,29 +1954,6 @@ var mkdirpSync = function (dir, mode) {
     }
 };
 
-const FILENAME_REGEX = /^[\w,\s-]+\.[A-Za-z]{3,4}$/;
-const QUERY_REGEX = /^(\??[\w\\[\]-]+=[^&]*&?)+$/;
-function clean(paths) {
-    return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, ''));
-}
-function isFile(path) {
-    return FILENAME_REGEX.test(path);
-}
-function isQuery(path) {
-    return QUERY_REGEX.test(path);
-}
-const urlGlue = (...paths) => {
-    const clearedPaths = clean(paths);
-    const last = paths
-        .join('/')
-        .split('/')
-        .pop();
-    if (isFile(last) || isQuery(last)) {
-        return clearedPaths.join('/');
-    }
-    return `${clearedPaths.join('/')}/`;
-};
-
 function buildFilePath(...args) {
     return path.resolve(process.cwd(), ...args);
 }
@@ -1990,7 +1968,7 @@ class Parser {
             barIncompleteChar: '.',
             stopOnComplete: true,
         });
-        this.url = urlGlue(this.baseUrl, url);
+        this.url = new URL(url, this.baseUrl).toString();
         this.filePath = buildFilePath(filePath);
         const dirName = path.dirname(this.filePath);
         try {
@@ -2056,24 +2034,22 @@ var scripts = {
 };
 var dependencies = {
 	chalk: "2.4.2",
-	"cli-progress": "2.1.1",
+	"cli-progress": "3.9.1",
 	minimist: "1.2.5",
 	"mkdirp-sync": "0.0.3",
-	puppeteer: "^1.12.2"
+	puppeteer: "^13.0.0"
 };
 var devDependencies = {
-	"@types/cli-progress": "^1.8.0",
+	"@types/cli-progress": "^3.9.2",
 	"@types/jest": "^24.0.12",
-	"@types/minimist": "1.2.0",
-	"@types/puppeteer": "^1.12.4",
+	"@types/minimist": "1.2.2",
+	"@types/puppeteer": "^5.4.4",
 	"@types/rollup": "^0.54.0",
 	"@typescript-eslint/eslint-plugin": "4.20.0",
 	"@typescript-eslint/parser": "4.20.0",
 	"cross-env": "^5.2.0",
 	eslint: "7.23.0",
-	husky: "^1.3.1",
 	jest: "^24.8.0",
-	"lint-staged": "^8.1.4",
 	"npm-run-all": "^4.1.5",
 	rimraf: "^2.6.3",
 	rollup: "^1.4.0",
@@ -2082,13 +2058,8 @@ var devDependencies = {
 	"rollup-plugin-json": "^4.0.0",
 	"rollup-plugin-node-resolve": "^4.2.3",
 	"rollup-plugin-typescript": "1.0.1",
-	shelljs: "^0.8.3",
-	typescript: "3.4.5"
-};
-var husky = {
-	hooks: {
-		"pre-commit": "lint-staged"
-	}
+	shelljs: "^0.8.4",
+	typescript: "4.5.3"
 };
 var pkg = {
 	"private": true,
@@ -2102,19 +2073,12 @@ var pkg = {
 	bin: bin,
 	scripts: scripts,
 	dependencies: dependencies,
-	devDependencies: devDependencies,
-	husky: husky,
-	"lint-staged": {
-	"*.ts": [
-		"yarn lint",
-		"yarn test --passWithNoTests"
-	]
-}
+	devDependencies: devDependencies
 };
 
 const argv = minimist(process.argv.slice(2), {
     default: {
-        pages: 60,
+        pages: 61,
         output: null,
         help: false,
         version: false,
@@ -2136,7 +2100,7 @@ if (argv.help) {
     console.log(chalk.green('Usage examples:'));
     console.log(chalk.green('    toster-tags-parser -v[--version]     Print package version'));
     console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
-    console.log(chalk.green('    toster-tags-parser -p[--pages] 60    Total pages'));
+    console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
     console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
     process.exit(errcodes_1);
 }
@@ -2190,8 +2154,8 @@ class TagsParser extends Parser {
         writeStream.write(JSON.stringify(tags, null, 2));
     }
 }
-const parser = new TagsParser('/tags/?page=', argv.output);
-const pages = Number(argv.pages) || 60;
+const parser = new TagsParser('/tags?page=', argv.output);
+const pages = Number(argv.pages) || 61;
 parser.run('header.card__head', pages);
 
 exports.TagsParser = TagsParser;
