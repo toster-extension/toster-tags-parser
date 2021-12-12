@@ -3,7 +3,6 @@ import chalk from 'chalk';
 import mkdir from 'mkdirp-sync';
 import * as puppeteer from 'puppeteer';
 import { Bar as ProgressBar } from 'cli-progress';
-import { FAILED_CREATE_DIRECTORY } from 'bin/errcodes';
 
 export function buildFilePath (...args: string[]): string {
   return path.resolve(process.cwd(), ...args);
@@ -30,7 +29,7 @@ export class Parser {
       mkdir(dirName);
     } catch {
       console.log(chalk.red(`Failed to create directory "${dirName}"!`));
-      process.exit(FAILED_CREATE_DIRECTORY);
+      process.exit(1);
     }
   }
 
