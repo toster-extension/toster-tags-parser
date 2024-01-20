@@ -6,7 +6,7 @@ import pkg from '../package.json';
 
 const argv = minimist(process.argv.slice(2),  {
   default: {
-    pages: 61,
+    pages: 62,
     output: null,
     help: false,
     version: false,
@@ -30,7 +30,7 @@ if (argv.help) {
   console.log(chalk.green('Usage examples:'));
   console.log(chalk.green('    toster-tags-parser -v[--version]     Print package version'));
   console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
-  console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
+  console.log(chalk.green('    toster-tags-parser -p[--pages] 62    Total pages'));
   console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
   process.exit(0);
 }
@@ -59,6 +59,7 @@ export class TagsParser extends Parser {
                 (element): Tag => {
                   const image = <HTMLImageElement>(element.querySelector('img.tag__image'));
                   const link = <HTMLAnchorElement>(element.querySelector('.card__head-title a'));
+                  const defaultImageUrl = 'https://hsto.org/webt/qd/le/pv/qdlepv7-2c56wz5_jpd0tkciu-w.png';
 
                   return <Tag>{
                     name: link.innerText
@@ -72,7 +73,7 @@ export class TagsParser extends Parser {
                           /^https:\/\/habrastorage\.org\//,
                           'https://hsto.org/'
                         )
-                      : '',
+                      : defaultImageUrl,
                   };
                 }
               );
@@ -104,7 +105,7 @@ export class TagsParser extends Parser {
 }
 
 const parser = new TagsParser('/tags?page=', argv.output);
-const pages = Number(argv.pages) || 61;
+const pages = Number(argv.pages) || 62;
 
 parser.run('header.card__head', pages);
 

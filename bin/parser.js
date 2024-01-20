@@ -2026,7 +2026,7 @@ var scripts = {
 var dependencies = {
 	chalk: "2.4.2",
 	"cli-progress": "3.9.1",
-	minimist: "1.2.5",
+	minimist: "1.2.6",
 	"mkdirp-sync": "0.0.3",
 	puppeteer: "^13.0.0"
 };
@@ -2049,7 +2049,7 @@ var devDependencies = {
 	"rollup-plugin-json": "^4.0.0",
 	"rollup-plugin-node-resolve": "^4.2.3",
 	"rollup-plugin-typescript": "1.0.1",
-	shelljs: "^0.8.4",
+	shelljs: "^0.8.5",
 	typescript: "4.5.3"
 };
 var pkg = {
@@ -2069,7 +2069,7 @@ var pkg = {
 
 const argv = minimist(process.argv.slice(2), {
     default: {
-        pages: 61,
+        pages: 62,
         output: null,
         help: false,
         version: false,
@@ -2091,7 +2091,7 @@ if (argv.help) {
     console.log(chalk.green('Usage examples:'));
     console.log(chalk.green('    toster-tags-parser -v[--version]     Print package version'));
     console.log(chalk.green('    toster-tags-parser -h[--help]        Print this message'));
-    console.log(chalk.green('    toster-tags-parser -p[--pages] 61    Total pages'));
+    console.log(chalk.green('    toster-tags-parser -p[--pages] 62    Total pages'));
     console.log(chalk.green('    toster-tags-parser -c[--output]      Output file path'));
     process.exit(0);
 }
@@ -2115,6 +2115,7 @@ class TagsParser extends Parser {
                         return Array.from(elements).map((element) => {
                             const image = (element.querySelector('img.tag__image'));
                             const link = (element.querySelector('.card__head-title a'));
+                            const defaultImageUrl = 'https://hsto.org/webt/qd/le/pv/qdlepv7-2c56wz5_jpd0tkciu-w.png';
                             return {
                                 name: link.innerText
                                     ? link.innerText.trim()
@@ -2124,7 +2125,7 @@ class TagsParser extends Parser {
                                     ? image
                                         .getAttribute('src')
                                         .replace(/^https:\/\/habrastorage\.org\//, 'https://hsto.org/')
-                                    : '',
+                                    : defaultImageUrl,
                             };
                         });
                     });
@@ -2146,7 +2147,7 @@ class TagsParser extends Parser {
     }
 }
 const parser = new TagsParser('/tags?page=', argv.output);
-const pages = Number(argv.pages) || 61;
+const pages = Number(argv.pages) || 62;
 parser.run('header.card__head', pages);
 
 exports.TagsParser = TagsParser;
